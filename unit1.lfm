@@ -1,0 +1,107 @@
+object Form1: TForm1
+  Left = 249
+  Height = 519
+  Top = 143
+  Width = 951
+  Caption = 'Form1'
+  ClientHeight = 519
+  ClientWidth = 951
+  OnCreate = FormCreate
+  LCLVersion = '1.8.2.0'
+  object Edit1: TEdit
+    Left = 0
+    Height = 41
+    Top = 478
+    Width = 951
+    Align = alBottom
+    OnChange = Edit1Change
+    OnKeyDown = Edit1KeyDown
+    OnKeyUp = Edit1KeyUp
+    TabOrder = 0
+    Text = 'USE /home/valmor/dados/cosems/BASE32019.GDB'
+  end
+  object DBGrid1: TDBGrid
+    Left = 0
+    Height = 371
+    Top = 0
+    Width = 951
+    Align = alTop
+    Color = clWindow
+    Columns = <>
+    DataSource = DataSource1
+    TabOrder = 1
+    OnKeyDown = DBGrid1KeyDown
+  end
+  object Memo1: TMemo
+    Left = 0
+    Height = 98
+    Top = 380
+    Width = 951
+    Align = alClient
+    OnKeyDown = Memo1KeyDown
+    TabOrder = 2
+  end
+  object Splitter2: TSplitter
+    Cursor = crVSplit
+    Left = 0
+    Height = 9
+    Top = 371
+    Width = 951
+    Align = alTop
+    ResizeAnchor = akTop
+  end
+  object SQLQuery1: TSQLQuery
+    FieldDefs = <>
+    Database = SQLConnector1
+    Transaction = SQLTransaction1
+    Params = <>
+    left = 192
+    top = 136
+  end
+  object SQLTransaction1: TSQLTransaction
+    Active = False
+    Database = SQLConnector1
+    left = 200
+    top = 56
+  end
+  object SQLConnector1: TSQLConnector
+    Connected = False
+    LoginPrompt = False
+    KeepConnection = False
+    Transaction = SQLTransaction1
+    HostName = 'localhost'
+    ConnectorType = 'Firebird'
+    left = 328
+    top = 64
+  end
+  object DataSource1: TDataSource
+    DataSet = SQLQuery1
+    left = 85
+    top = 160
+  end
+  object SQLScript1: TSQLScript
+    DataBase = SQLConnector1
+    Transaction = SQLTransaction1
+    UseDollarString = False
+    Directives.Strings = (
+      'SET TERM'
+      'COMMIT WORK'
+      'COMMIT RETAIN'
+      'COMMIT'
+      '#IFDEF'
+      '#IFNDEF'
+      '#ELSE'
+      '#ENDIF'
+      '#DEFINE'
+      '#UNDEF'
+      '#UNDEFINE'
+    )
+    Terminator = ';'
+    CommentsinSQL = True
+    UseSetTerm = True
+    UseCommit = True
+    UseDefines = True
+    left = 296
+    top = 232
+  end
+end
