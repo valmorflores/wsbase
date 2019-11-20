@@ -29,6 +29,7 @@ type
     procedure Edit1KeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure ExecutaComando( cComando: String );
     procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
     procedure Memo1KeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     function TemAtributo(Attr, Val: Integer): Boolean;
     procedure FuncDir(Diretorio: string; Sub:Boolean);
@@ -207,10 +208,15 @@ begin
   end;
   if UpperCase( copy( cComando, 1, 3 ) ) = 'CLS' then
   begin
-     // Busca arquivos
+     // Limpar
      memo1.lines.clear;
-  end;
-  if UpperCase( copy( cComando, 1, 3 ) ) = 'USE' then
+  end
+  else if UpperCase( copy( cComando, 1, 5 ) ) = 'CLEAR' then
+  begin
+     // Limpar
+     memo1.lines.clear;
+  end
+  else if UpperCase( copy( cComando, 1, 3 ) ) = 'USE' then
   begin
      // Conecta ao banco
      if SQLConnector1.ConnectorType = '' then
@@ -222,7 +228,6 @@ begin
      SQLConnector1.Open;
      memo1.lines.add( 'Conectado em ' + SQLConnector1.databasename );
   end;
-
   if UpperCase( copy( cComando, 1, 6 ) ) = 'SELECT' then
   begin
      // Conecta ao banco
@@ -354,6 +359,17 @@ end;
 procedure TForm1.FormCreate(Sender: TObject);
 begin
    Caption:= 'fpcBase v1.0';
+end;
+
+procedure TForm1.FormShow(Sender: TObject);
+var
+   cPar: String;
+begin
+  cPar:= ParamStr(1);
+  if ( cPar <> '' ) then
+  begin
+    Edit1.text:= 'USE ' + cPar;
+  end;
 end;
 
 procedure TForm1.Memo1KeyDown(Sender: TObject; var Key: Word; Shift: TShiftState
