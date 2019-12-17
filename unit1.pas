@@ -163,6 +163,8 @@ begin
 end;
 
 procedure TForm1.ExecutaComando( cComando: String );
+var
+    cData, cUser, cHost, cPass: String;
 begin
   if UpperCase( copy( cComando, 1, 3 ) ) = 'CD ' then
   begin
@@ -198,6 +200,37 @@ begin
      WindowState:= wsMaximized;
      Application.processMessages;
   end;
+
+  if UpperCase( copy( cComando, 1, 11 ) ) = 'SHOW TABLES' then
+  begin
+     // Maximiza tela
+    memo1.lines.add( cComando );
+    cComando:= 'SELECT rdb$relation_name AS TABELA'+
+                '        FROM rdb$relations '+
+                '        WHERE rdb$system_flag = 0 '+ //  somente objetos de usuário
+                '            and rdb$relation_type = 0 '; //-- somente tabelas;
+
+     SQLQuery1.SQL.clear;
+     SQLQuery1.Close;
+     SQLQuery1.SQL.Add( cComando );
+     try
+       SQLQuery1.Open;
+       if SQLQuery1.Active then
+       begin
+         memo1.lines.add( 'Executando comando ' + cComando );
+         while not SQLQuery1.eof do
+         begin
+            memo1.lines.add( SQLQuery1.FieldByName( 'TABELA' ).AsString );
+            SQLQuery1.next;
+         end;
+       end;
+
+     except on E: Exception do
+        memo1.lines.add( 'Erro: ' + e.message + ' executando ' + cComando );
+     end;
+  end;
+
+
   if UpperCase( copy( cComando, 1, 4 ) ) = 'BROW' then // BROWSER
   begin
     // Foco no grid
@@ -218,15 +251,39 @@ begin
   end
   else if UpperCase( copy( cComando, 1, 3 ) ) = 'USE' then
   begin
+     cUser:= 'SYSDBA';
+     cPass:= 'masterkey';
+     cHost:= 'localhost';
+     cData:= trim( copy( cComando, pos( ' ', cComando )+1, 100 ) );
+     if pos( ' ', cData ) > 0 then
+        cData:= copy( cData, 0, pos(' ', cData )-1 );
+     if pos( ':', cData ) > 0 then
+        cHost:= copy( cData, 0, pos(':', cData )-1 );
+     if pos( ':', cData ) > 0 then
+        cData:= trim( copy( cData, pos(':', cData )+1 ) );
+     if pos( '-u', cComando ) > 0 then
+     begin
+         cUser:= copy( cComando, pos('-u', cComando )+2 );
+         cUser:= trim( cUser );
+         cUser:= copy( cUser, 0, pos( ' ', cUser )-1 );
+     end;
+     if pos( '-p', cComando ) > 0 then
+     begin
+         cPass:= copy( cComando, pos('-p', cComando )+2 );
+         cPass:= trim( cPass ) + ' ';
+         cPass:= copy( cPass, 0, pos( ' ', cPass )-1 );
+     end;
+     memo1.lines.add( 'Parametros ' + cUser + '/' + cPass + '@' + cHost + ':' + cData );
      // Conecta ao banco
      if SQLConnector1.ConnectorType = '' then
         SQLConnector1.ConnectorType:='Firebird';     
-     SQLConnector1.hostname:= 'localhost';
-     SQLConnector1.username:= 'SYSDBA';
-     SQLConnector1.password:= 'masterkey';
-     SQLConnector1.databasename:= trim( copy( cComando, pos( ' ', cComando )+1, 100 ) );
+     SQLConnector1.hostname:= cHost;
+     SQLConnector1.username:= cUser;
+     SQLConnector1.password:= cPass;
+     SQLConnector1.databasename:= cData;
      SQLConnector1.Open;
      memo1.lines.add( 'Conectado em ' + SQLConnector1.databasename );
+
   end;
   if UpperCase( copy( cComando, 1, 6 ) ) = 'SELECT' then
   begin
@@ -397,6 +454,7 @@ begin
         'SELECT, ' + lf  +
         'DELETE, ' + lf  +
         'BROWSER, ' + lf +
+        'SHOW TABLES, ' + lf +
         ' '
      );
 end;
