@@ -9,47 +9,66 @@ object Form1: TForm1
   OnCreate = FormCreate
   OnShow = FormShow
   LCLVersion = '1.8.2.0'
-  object Edit1: TEdit
+  object Panel1: TPanel
     Left = 0
-    Height = 29
-    Top = 490
-    Width = 951
-    Align = alBottom
-    OnChange = Edit1Change
-    OnKeyDown = Edit1KeyDown
-    OnKeyUp = Edit1KeyUp
-    TabOrder = 0
-    Text = 'USE /home/valmor/dados/cosems/BASE32019.GDB'
-  end
-  object DBGrid1: TDBGrid
-    Left = 0
-    Height = 371
+    Height = 519
     Top = 0
-    Width = 951
-    Align = alTop
-    Color = clWindow
-    Columns = <>
-    DataSource = DataSource1
-    TabOrder = 1
-    OnKeyDown = DBGrid1KeyDown
+    Width = 48
+    Align = alLeft
+    TabOrder = 0
   end
-  object Memo1: TMemo
-    Left = 0
-    Height = 110
-    Top = 380
-    Width = 951
+  object Panel2: TPanel
+    Left = 48
+    Height = 519
+    Top = 0
+    Width = 903
     Align = alClient
-    OnKeyDown = Memo1KeyDown
-    TabOrder = 2
-  end
-  object Splitter2: TSplitter
-    Cursor = crVSplit
-    Left = 0
-    Height = 9
-    Top = 371
-    Width = 951
-    Align = alTop
-    ResizeAnchor = akTop
+    Caption = 'Panel2'
+    ClientHeight = 519
+    ClientWidth = 903
+    TabOrder = 1
+    object DBGrid1: TDBGrid
+      Left = 1
+      Height = 371
+      Top = 10
+      Width = 901
+      Align = alTop
+      Color = clWindow
+      Columns = <>
+      DataSource = DataSource1
+      TabOrder = 0
+      OnKeyDown = DBGrid1KeyDown
+    end
+    object Splitter2: TSplitter
+      Cursor = crVSplit
+      Left = 1
+      Height = 9
+      Top = 1
+      Width = 901
+      Align = alTop
+      ResizeAnchor = akTop
+    end
+    object Memo1: TMemo
+      Left = 1
+      Height = 108
+      Top = 381
+      Width = 901
+      Align = alClient
+      OnKeyDown = Memo1KeyDown
+      TabOrder = 2
+    end
+    object Edit1: TEdit
+      Left = 1
+      Height = 29
+      Top = 489
+      Width = 901
+      Align = alBottom
+      OnChange = Edit1Change
+      OnKeyDown = Edit1KeyDown
+      OnKeyUp = Edit1KeyUp
+      TabOrder = 3
+      Text = 'USE /home/valmor/dados/cosems/BASE32019.GDB'
+    end
   end
   object SQLQuery1: TSQLQuery
     FieldDefs = <>

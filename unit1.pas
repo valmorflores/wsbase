@@ -17,6 +17,8 @@ type
     DBGrid1: TDBGrid;
     Edit1: TEdit;
     Memo1: TMemo;
+    Panel1: TPanel;
+    Panel2: TPanel;
     Splitter2: TSplitter;
     SQLConnector1: TSQLConnector;
     SQLQuery1: TSQLQuery;
@@ -302,6 +304,48 @@ begin
           if SQLQuery1.Active then
              memo1.lines.add( 'Executando comando ' + cComando );
 
+        except on E: Exception do
+           memo1.lines.add( 'Erro: ' + e.message + ' executando ' + cComando );
+        end;
+     end;
+  end;
+
+  if UpperCase( copy( cComando, 1, 6 ) ) = 'INSERT' then
+  begin
+     // Conecta ao banco
+     if False then //not SQLConnector1..Active then
+     begin
+        memo1.lines.add( 'Banco desconectado' );
+     end
+     else
+     begin
+        SQLQuery1.SQL.clear;
+        SQLQuery1.Close;
+        SQLQuery1.SQL.Add( cComando );
+        try
+          SQLQuery1.ExecSQL;
+          memo1.lines.add( 'Executando comando ' + cComando );
+        except on E: Exception do
+           memo1.lines.add( 'Erro: ' + e.message + ' executando ' + cComando );
+        end;
+     end;
+  end;
+
+  if UpperCase( copy( cComando, 1, 6 ) ) = 'UPDATE' then
+  begin
+     // Conecta ao banco
+     if False then //not SQLConnector1..Active then
+     begin
+        memo1.lines.add( 'Banco desconectado' );
+     end
+     else
+     begin
+        SQLQuery1.SQL.clear;
+        SQLQuery1.Close;
+        SQLQuery1.SQL.Add( cComando );
+        try
+          SQLQuery1.ExecSQL;
+          memo1.lines.add( 'Executando comando ' + cComando );
         except on E: Exception do
            memo1.lines.add( 'Erro: ' + e.message + ' executando ' + cComando );
         end;
