@@ -87,6 +87,7 @@ begin
          HistoricoAtual:= 0;
      end;
      Edit1.Text:= FrmHistory.CheckListBox1.items[HistoricoAtual];
+     Edit1.SelStart:= Length( Edit1.Text );
   end;
 
   if Key = 40 then // Seta para baixo
@@ -100,6 +101,7 @@ begin
          HistoricoAtual:= FrmHistory.CheckListBox1.items.count-1;
      end;
      Edit1.Text:= FrmHistory.CheckListBox1.items[HistoricoAtual];
+     Edit1.SelStart:= Length( Edit1.Text );
   end;
 
 end;
@@ -225,7 +227,14 @@ begin
   end;
   if UpperCase( copy( cComando, 1, 8 ) ) = 'HISTORY' then
   begin
-     FrmHistory.Show;
+     if FrmHistory.ShowModal = mrOk then
+     begin
+        if trim( FrmHistory.lbHistory.caption ) <> '' then
+        begin
+           Edit1.Text:= FrmHistory.lbHistory.caption;
+           Edit1.SelStart:= Length( FrmHistory.lbHistory.caption );
+        end;
+     end;
   end;
 
   if UpperCase( copy( cComando, 1, 5 ) ) = 'CLOSE' then

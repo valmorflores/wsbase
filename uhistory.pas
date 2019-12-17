@@ -15,8 +15,14 @@ type
   TFrmHistory = class(TForm)
     CheckListBox1: TCheckListBox;
     Edit1: TEdit;
+    lbHistory: TLabel;
     Panel1: TPanel;
+    procedure CheckListBox1ItemClick(Sender: TObject; Index: integer);
+    procedure CheckListBox1KeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure CheckListBox1SelectionChange(Sender: TObject; User: boolean);
     procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   private
 
   public
@@ -38,6 +44,56 @@ begin
     begin
        CheckListBox1.Items.LoadFromFile( ExtractFilePath( Application.ExeName ) +  'history.sys' );
     end;
+end;
+
+procedure TFrmHistory.FormShow(Sender: TObject);
+var
+  i: integer;
+begin
+  for i:= 0 to CheckListBox1.Items.count-1 do
+  begin
+     ChecklistBox1.Checked[i]:= false;
+  end;
+end;
+
+procedure TFrmHistory.CheckListBox1KeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+var i: Integer;
+begin
+  lbHistory.caption:= '';
+  if Key = 13 then
+  begin
+     if CheckListBox1.SelCount > 0 then
+     begin
+        for i:= 0 to CheckListBox1.Items.count-1 do
+        begin
+           if CheckListBox1.Checked[i] then
+              lbHistory.caption:= CheckListBox1.Items[i];
+        end;
+     end;
+     ModalResult:= mrOk;
+  end
+  else if Key = 10 then
+     ModalResult:= mrOk
+  else if Key = 27 then
+     ModalResult:= mrCancel;
+end;
+
+procedure TFrmHistory.CheckListBox1SelectionChange(Sender: TObject;
+  User: boolean);
+var
+  i: integer;
+begin
+  for i:= 0 to CheckListBox1.Items.count-1 do
+  begin
+     if CheckListBox1.Checked[i] then
+        lbHistory.caption:= CheckListBox1.Items[i];
+  end;
+end;
+
+procedure TFrmHistory.CheckListBox1ItemClick(Sender: TObject; Index: integer);
+begin
+
 end;
 
 procedure TFrmHistory.Add( cStr: String );

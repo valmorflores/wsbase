@@ -52,6 +52,7 @@
         <Filename Value="uhistory.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FrmHistory"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit3>
     </Units>

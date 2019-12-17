@@ -7,6 +7,7 @@ object FrmHistory: TFrmHistory
   ClientHeight = 507
   ClientWidth = 463
   OnCreate = FormCreate
+  OnShow = FormShow
   Position = poMainFormCenter
   LCLVersion = '1.8.2.0'
   object CheckListBox1: TCheckListBox
@@ -16,6 +17,9 @@ object FrmHistory: TFrmHistory
     Width = 463
     Align = alClient
     ItemHeight = 0
+    OnItemClick = CheckListBox1ItemClick
+    OnKeyDown = CheckListBox1KeyDown
+    OnSelectionChange = CheckListBox1SelectionChange
     TabOrder = 0
     TopIndex = -1
   end
@@ -38,5 +42,13 @@ object FrmHistory: TFrmHistory
       Align = alClient
       TabOrder = 0
     end
+  end
+  object lbHistory: TLabel
+    Left = 15
+    Height = 17
+    Top = 159
+    Width = 50
+    Caption = 'lbHistory'
+    ParentColor = False
   end
 end
