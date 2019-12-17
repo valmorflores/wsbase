@@ -29,7 +29,7 @@
         <PackageName Value="LCL"/>
       </Item2>
     </RequiredPackages>
-    <Units Count="2">
+    <Units Count="4">
       <Unit0>
         <Filename Value="fpcbase.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -42,6 +42,18 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Unit1"/>
       </Unit1>
+      <Unit2>
+        <Filename Value="uhistory.pas"/>
+        <IsPartOfProject Value="True"/>
+        <HasResources Value="True"/>
+        <UnitName Value="uHistory"/>
+      </Unit2>
+      <Unit3>
+        <Filename Value="uhistory.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FrmHistory"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit3>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

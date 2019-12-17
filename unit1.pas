@@ -6,7 +6,8 @@ interface
 
 uses
   Classes, SysUtils, sqldb, db, IBConnection, FileUtil, Forms, Controls,
-  Graphics, Dialogs, StdCtrls, DBGrids, ExtCtrls;
+  Graphics, Dialogs, StdCtrls, DBGrids, ExtCtrls,
+  uHistory;
 
 type
 
@@ -48,9 +49,12 @@ type
 
 var
   Form1: TForm1;
+  FrmHistory: TFrmHistory;
   PastaAtual: String;
+  HistoricoAtual: Integer;
 
 implementation
+
 
 {$R *.lfm}
 
@@ -73,7 +77,31 @@ procedure TForm1.Edit1KeyDown(Sender: TObject; var Key: Word; Shift: TShiftState
   );
 begin
   if Key = 38 then // Seta para cima
-     memo1.setFocus;
+  begin
+     if ( HistoricoAtual+1 < FrmHistory.CheckListBox1.items.count ) then
+     begin
+         inc( HistoricoAtual );
+     end
+     else
+     begin
+         HistoricoAtual:= 0;
+     end;
+     Edit1.Text:= FrmHistory.CheckListBox1.items[HistoricoAtual];
+  end;
+
+  if Key = 40 then // Seta para baixo
+  begin
+     if ( HistoricoAtual > 0 ) then
+     begin
+         dec( HistoricoAtual );
+     end
+     else
+     begin
+         HistoricoAtual:= FrmHistory.CheckListBox1.items.count-1;
+     end;
+     Edit1.Text:= FrmHistory.CheckListBox1.items[HistoricoAtual];
+  end;
+
 end;
 
 procedure TForm1.DBGrid1KeyDown(Sender: TObject; var Key: Word;
@@ -168,6 +196,7 @@ procedure TForm1.ExecutaComando( cComando: String );
 var
     cData, cUser, cHost, cPass: String;
 begin
+  FrmHistory.Add( cComando );
   if UpperCase( copy( cComando, 1, 3 ) ) = 'CD ' then
   begin
      // Busca arquivos
@@ -193,6 +222,17 @@ begin
      // Maximiza tela
      memo1.lines.add( cComando );
      Help;
+  end;
+  if UpperCase( copy( cComando, 1, 8 ) ) = 'HISTORY' then
+  begin
+     FrmHistory.Show;
+  end;
+
+  if UpperCase( copy( cComando, 1, 5 ) ) = 'CLOSE' then
+  begin
+     // Maximiza tela
+     memo1.lines.add( cComando );
+     SQLQuery1.Close;
   end;
 
   if UpperCase( copy( cComando, 1, 8 ) ) = 'MAXIMIZE' then
@@ -460,6 +500,7 @@ end;
 procedure TForm1.FormCreate(Sender: TObject);
 begin
    Caption:= 'fpcBase v1.0';
+   HistoricoAtual:= -1;
 end;
 
 procedure TForm1.FormShow(Sender: TObject);
@@ -471,6 +512,8 @@ begin
   begin
     Edit1.text:= 'USE ' + cPar;
   end;
+  FrmHistory:= tFrmHistory.Create( Application );
+  Edit1.SetFocus;
 end;
 
 procedure TForm1.Memo1KeyDown(Sender: TObject; var Key: Word; Shift: TShiftState

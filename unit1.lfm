@@ -1,17 +1,18 @@
 object Form1: TForm1
   Left = 293
-  Height = 519
+  Height = 557
   Top = 213
   Width = 951
   Caption = 'Form1'
-  ClientHeight = 519
+  ClientHeight = 557
   ClientWidth = 951
   OnCreate = FormCreate
   OnShow = FormShow
+  Position = poWorkAreaCenter
   LCLVersion = '1.8.2.0'
   object Panel1: TPanel
     Left = 0
-    Height = 519
+    Height = 557
     Top = 0
     Width = 48
     Align = alLeft
@@ -19,18 +20,18 @@ object Form1: TForm1
   end
   object Panel2: TPanel
     Left = 48
-    Height = 519
+    Height = 557
     Top = 0
     Width = 903
     Align = alClient
     Caption = 'Panel2'
-    ClientHeight = 519
+    ClientHeight = 557
     ClientWidth = 903
     TabOrder = 1
     object DBGrid1: TDBGrid
       Left = 1
       Height = 371
-      Top = 10
+      Top = 1
       Width = 901
       Align = alTop
       Color = clWindow
@@ -43,14 +44,14 @@ object Form1: TForm1
       Cursor = crVSplit
       Left = 1
       Height = 9
-      Top = 1
+      Top = 372
       Width = 901
       Align = alTop
       ResizeAnchor = akTop
     end
     object Memo1: TMemo
       Left = 1
-      Height = 108
+      Height = 146
       Top = 381
       Width = 901
       Align = alClient
@@ -60,7 +61,7 @@ object Form1: TForm1
     object Edit1: TEdit
       Left = 1
       Height = 29
-      Top = 489
+      Top = 527
       Width = 901
       Align = alBottom
       OnChange = Edit1Change
