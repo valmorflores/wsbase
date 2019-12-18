@@ -1,7 +1,7 @@
 object FrmHistory: TFrmHistory
   Left = 347
   Height = 507
-  Top = 206
+  Top = 187
   Width = 463
   Caption = 'Histórico'
   ClientHeight = 507
@@ -45,9 +45,9 @@ object FrmHistory: TFrmHistory
   end
   object lbHistory: TLabel
     Left = 15
-    Height = 17
+    Height = 16
     Top = 159
-    Width = 50
+    Width = 55
     Caption = 'lbHistory'
     ParentColor = False
   end

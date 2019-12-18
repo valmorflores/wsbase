@@ -5,26 +5,43 @@ unit Unit1;
 interface
 
 uses
-  Classes, SysUtils, sqldb, db, IBConnection, FileUtil, Forms, Controls,
-  Graphics, Dialogs, StdCtrls, DBGrids, ExtCtrls,
-  uHistory;
+  Classes, SysUtils, sqldb, db, IBConnection, FileUtil, SynEdit, Forms,
+  Controls, Graphics, Dialogs, StdCtrls, DBGrids, ExtCtrls, Buttons, ActnList,
+  ComCtrls, uHistory;
 
 type
 
   { TForm1 }
 
   TForm1 = class(TForm)
+    Config: TAction;
+    Memo1: TMemo;
+    Menu2: TAction;
+    Menu1: TAction;
+    Locate: TAction;
+    NewFolder: TAction;
+    ActionList1: TActionList;
     DataSource1: TDataSource;
     DBGrid1: TDBGrid;
     Edit1: TEdit;
-    Memo1: TMemo;
+    ImageList1: TImageList;
+    PageControl1: TPageControl;
     Panel1: TPanel;
     Panel2: TPanel;
+    Panel3: TPanel;
+    Panel4: TPanel;
+    SpeedButton1: TSpeedButton;
+    SpeedButton2: TSpeedButton;
+    SpeedButton3: TSpeedButton;
+    SpeedButton4: TSpeedButton;
     Splitter2: TSplitter;
     SQLConnector1: TSQLConnector;
     SQLQuery1: TSQLQuery;
     SQLScript1: TSQLScript;
     SQLTransaction1: TSQLTransaction;
+    TabSheet1: TTabSheet;
+    procedure BitBtn1Click(Sender: TObject);
+    procedure ConfigExecute(Sender: TObject);
     procedure DBGrid1KeyDown(Sender: TObject; var Key: Word; Shift: TShiftState
       );
     procedure Edit1Change(Sender: TObject);
@@ -33,13 +50,19 @@ type
     procedure ExecutaComando( cComando: String );
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure LocateExecute(Sender: TObject);
     procedure Memo1KeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure MenuExecute(Sender: TObject);
+    procedure NewFolderExecute(Sender: TObject);
     function TemAtributo(Attr, Val: Integer): Boolean;
     procedure FuncDir(Diretorio: string; Sub:Boolean);
     procedure FuncDirFolders();
     procedure FuncMudaPasta( cPasta: String );
     function Pasta(): String;
     procedure Help();
+    procedure getHistory;
+    procedure newPageFolder;
+
 
   private
 
@@ -116,6 +139,16 @@ begin
   end;
 end;
 
+procedure TForm1.BitBtn1Click(Sender: TObject);
+begin
+
+end;
+
+procedure TForm1.ConfigExecute(Sender: TObject);
+begin
+  Help();
+end;
+
 function TForm1.Pasta(): String;
 begin
    result:= PastaAtual;
@@ -129,7 +162,7 @@ var
   caminho: string;
 begin
   caminho:= Diretorio + '*.*';
-  memo1.lines.add( 'dir.folder.files=' + caminho );
+  Memo1.lines.add( 'dir.folder.files=' + caminho );
   Ret := FindFirst( caminho, faAnyFile, F);
   while Ret = 0 do
   begin
@@ -147,7 +180,7 @@ begin
         end
         else
         begin
-           memo1.Lines.Add( Diretorio + F.Name );
+           Memo1.Lines.Add( Diretorio + F.Name );
         end;
         Ret := FindNext(F);
    end;
@@ -159,14 +192,14 @@ var
 begin
     // Try to find directories above the current directory
     SetCurrentDir( pasta() );
-    memo1.lines.add( 'dir.folder.folders=' + pasta() );
+    Memo1.lines.add( 'dir.folder.folders=' + pasta() );
     if findfirst('*', faDirectory, searchResult) = 0 then
     begin
       repeat
         // Only show directories
         if (searchResult.attr and faDirectory) = faDirectory
         then if searchResult.Name <> '.' then if searchResult.Name <> '..' then
-            memo1.lines.add('Dir = '+searchResult.Name);
+            Memo1.lines.add('Dir = '+searchResult.Name);
       until FindNext(searchResult) <> 0;
 
       // Must free up resources used by these successful finds
@@ -191,7 +224,7 @@ begin
    begin
       pastaAtual:= pastaAtual + cPasta;
    end;
-   memo1.Lines.add( '->' + pastaAtual );
+   Memo1.Lines.add( '->' + pastaAtual );
 end;
 
 procedure TForm1.ExecutaComando( cComando: String );
@@ -202,52 +235,45 @@ begin
   if UpperCase( copy( cComando, 1, 3 ) ) = 'CD ' then
   begin
      // Busca arquivos
-     memo1.lines.add( cComando );
+     Memo1.lines.add( cComando );
      FuncMudaPasta( trim( copy( cComando, 3, 9999 ) ) );
   end;
   if UpperCase( copy( cComando, 1, 3 ) ) = 'DIR' then
   begin
      // Busca arquivos
-     memo1.lines.add( cComando + ' ' + Pasta() );
+     Memo1.lines.add( cComando + ' ' + Pasta() );
      FuncDirFolders();
      FuncDir( pastaAtual, false );
   end;
   if UpperCase( copy( cComando, 1, 8 ) ) = 'MAXIMIZE' then
   begin
      // Maximiza tela
-     memo1.lines.add( cComando );
+     Memo1.lines.add( cComando );
      WindowState:= wsMaximized;
      Application.processMessages;
   end;
   if UpperCase( copy( cComando, 1, 8 ) ) = 'HELP' then
   begin
      // Maximiza tela
-     memo1.lines.add( cComando );
+     Memo1.lines.add( cComando );
      Help;
   end;
   if UpperCase( copy( cComando, 1, 8 ) ) = 'HISTORY' then
   begin
-     if FrmHistory.ShowModal = mrOk then
-     begin
-        if trim( FrmHistory.lbHistory.caption ) <> '' then
-        begin
-           Edit1.Text:= FrmHistory.lbHistory.caption;
-           Edit1.SelStart:= Length( FrmHistory.lbHistory.caption );
-        end;
-     end;
+     GetHistory;
   end;
 
   if UpperCase( copy( cComando, 1, 5 ) ) = 'CLOSE' then
   begin
      // Maximiza tela
-     memo1.lines.add( cComando );
+     Memo1.lines.add( cComando );
      SQLQuery1.Close;
   end;
 
   if UpperCase( copy( cComando, 1, 8 ) ) = 'MAXIMIZE' then
   begin
      // Maximiza tela
-     memo1.lines.add( cComando );
+     Memo1.lines.add( cComando );
      WindowState:= wsMaximized;
      Application.processMessages;
   end;
@@ -255,7 +281,7 @@ begin
   if UpperCase( copy( cComando, 1, 11 ) ) = 'SHOW TABLES' then
   begin
      // Maximiza tela
-    memo1.lines.add( cComando );
+    Memo1.lines.add( cComando );
     cComando:= 'SELECT rdb$relation_name AS TABELA'+
                 '        FROM rdb$relations '+
                 '        WHERE rdb$system_flag = 0 '+ //  somente objetos de usuário
@@ -268,16 +294,16 @@ begin
        SQLQuery1.Open;
        if SQLQuery1.Active then
        begin
-         memo1.lines.add( 'Executando comando ' + cComando );
+         Memo1.lines.add( 'Executando comando ' + cComando );
          while not SQLQuery1.eof do
          begin
-            memo1.lines.add( SQLQuery1.FieldByName( 'TABELA' ).AsString );
+            Memo1.lines.add( SQLQuery1.FieldByName( 'TABELA' ).AsString );
             SQLQuery1.next;
          end;
        end;
 
      except on E: Exception do
-        memo1.lines.add( 'Erro: ' + e.message + ' executando ' + cComando );
+        Memo1.lines.add( 'Erro: ' + e.message + ' executando ' + cComando );
      end;
   end;
 
@@ -285,7 +311,7 @@ begin
   if UpperCase( copy( cComando, 1, 4 ) ) = 'BROW' then // BROWSER
   begin
     // Foco no grid
-     memo1.lines.add( cComando );
+     Memo1.lines.add( cComando );
      if DBGrid1.CanFocus then
         DBGrid1.SetFocus;
      Edit1.text:= '';
@@ -293,12 +319,12 @@ begin
   if UpperCase( copy( cComando, 1, 3 ) ) = 'CLS' then
   begin
      // Limpar
-     memo1.lines.clear;
+     Memo1.lines.clear;
   end
   else if UpperCase( copy( cComando, 1, 5 ) ) = 'CLEAR' then
   begin
      // Limpar
-     memo1.lines.clear;
+     Memo1.lines.clear;
   end
   else if UpperCase( copy( cComando, 1, 3 ) ) = 'USE' then
   begin
@@ -324,7 +350,7 @@ begin
          cPass:= trim( cPass ) + ' ';
          cPass:= copy( cPass, 0, pos( ' ', cPass )-1 );
      end;
-     memo1.lines.add( 'Parametros ' + cUser + '/' + cPass + '@' + cHost + ':' + cData );
+     Memo1.lines.add( 'Parametros ' + cUser + '/' + cPass + '@' + cHost + ':' + cData );
      // Conecta ao banco
      if SQLConnector1.ConnectorType = '' then
         SQLConnector1.ConnectorType:='Firebird';     
@@ -333,7 +359,7 @@ begin
      SQLConnector1.password:= cPass;
      SQLConnector1.databasename:= cData;
      SQLConnector1.Open;
-     memo1.lines.add( 'Conectado em ' + SQLConnector1.databasename );
+     Memo1.lines.add( 'Conectado em ' + SQLConnector1.databasename );
 
   end;
   if UpperCase( copy( cComando, 1, 6 ) ) = 'SELECT' then
@@ -341,7 +367,7 @@ begin
      // Conecta ao banco
      if False then //not SQLConnector1..Active then
      begin
-        memo1.lines.add( 'Banco desconectado' );
+        Memo1.lines.add( 'Banco desconectado' );
      end
      else
      begin
@@ -351,10 +377,10 @@ begin
         try
           SQLQuery1.Open;
           if SQLQuery1.Active then
-             memo1.lines.add( 'Executando comando ' + cComando );
+             Memo1.lines.add( 'Executando comando ' + cComando );
 
         except on E: Exception do
-           memo1.lines.add( 'Erro: ' + e.message + ' executando ' + cComando );
+           Memo1.lines.add( 'Erro: ' + e.message + ' executando ' + cComando );
         end;
      end;
   end;
@@ -364,7 +390,7 @@ begin
      // Conecta ao banco
      if False then //not SQLConnector1..Active then
      begin
-        memo1.lines.add( 'Banco desconectado' );
+        Memo1.lines.add( 'Banco desconectado' );
      end
      else
      begin
@@ -373,9 +399,9 @@ begin
         SQLQuery1.SQL.Add( cComando );
         try
           SQLQuery1.ExecSQL;
-          memo1.lines.add( 'Executando comando ' + cComando );
+          Memo1.lines.add( 'Executando comando ' + cComando );
         except on E: Exception do
-           memo1.lines.add( 'Erro: ' + e.message + ' executando ' + cComando );
+           Memo1.lines.add( 'Erro: ' + e.message + ' executando ' + cComando );
         end;
      end;
   end;
@@ -385,7 +411,7 @@ begin
      // Conecta ao banco
      if False then //not SQLConnector1..Active then
      begin
-        memo1.lines.add( 'Banco desconectado' );
+        Memo1.lines.add( 'Banco desconectado' );
      end
      else
      begin
@@ -394,9 +420,9 @@ begin
         SQLQuery1.SQL.Add( cComando );
         try
           SQLQuery1.ExecSQL;
-          memo1.lines.add( 'Executando comando ' + cComando );
+          Memo1.lines.add( 'Executando comando ' + cComando );
         except on E: Exception do
-           memo1.lines.add( 'Erro: ' + e.message + ' executando ' + cComando );
+           Memo1.lines.add( 'Erro: ' + e.message + ' executando ' + cComando );
         end;
      end;
   end;
@@ -424,11 +450,11 @@ begin
      // Conecta ao banco
      if False then //not SQLConnector1..Active then
      begin
-        memo1.lines.add( 'Banco desconectado' );
+        Memo1.lines.add( 'Banco desconectado' );
      end
      else if pos( 'WHERE ', UpperCase( cComando ) ) <= 0 then
      begin
-        memo1.lines.add( 'Você precisa de superpoderes para usar DELETE sem WHERE' );
+        Memo1.lines.add( 'Você precisa de superpoderes para usar DELETE sem WHERE' );
      end
      else
      begin
@@ -436,9 +462,9 @@ begin
         SQLScript1.Script.Add( cComando + ';' + 'COMMIT;' );
         try
           SQLScript1.ExecuteScript;
-          memo1.lines.add( 'Executando comando ' + cComando );
+          Memo1.lines.add( 'Executando comando ' + cComando );
         except on E: Exception do
-           memo1.lines.add( 'Erro: ' + e.message + ' executando ' + cComando );
+           Memo1.lines.add( 'Erro: ' + e.message + ' executando ' + cComando );
         end;
      end;
   end;
@@ -448,7 +474,7 @@ begin
      // Conecta ao banco
      if False then //not SQLConnector1..Active then
      begin
-        memo1.lines.add( 'Banco desconectado' );
+        Memo1.lines.add( 'Banco desconectado' );
      end
      else
      begin
@@ -456,9 +482,9 @@ begin
         SQLScript1.Script.Add( cComando + ';' + 'COMMIT;' );
         try
           SQLScript1.ExecuteScript;
-          memo1.lines.add( 'Executando comando ' + cComando );
+          Memo1.lines.add( 'Executando comando ' + cComando );
         except on E: Exception do
-           memo1.lines.add( 'Erro: ' + e.message + ' executando ' + cComando );
+           Memo1.lines.add( 'Erro: ' + e.message + ' executando ' + cComando );
         end;
      end;
   end;
@@ -468,7 +494,7 @@ begin
      // Conecta ao banco
      if False then //not SQLConnector1..Active then
      begin
-        memo1.lines.add( 'Banco desconectado' );
+        Memo1.lines.add( 'Banco desconectado' );
      end
      else
      begin
@@ -476,9 +502,9 @@ begin
         SQLScript1.Script.Add( cComando + ';' + 'COMMIT;' );
         try
           SQLScript1.ExecuteScript;
-          memo1.lines.add( 'Executando comando ' + cComando );
+          Memo1.lines.add( 'Executando comando ' + cComando );
         except on E: Exception do
-           memo1.lines.add( 'Erro: ' + e.message + ' executando ' + cComando );
+           Memo1.lines.add( 'Erro: ' + e.message + ' executando ' + cComando );
         end;
      end;
   end;
@@ -488,7 +514,7 @@ begin
      // Conecta ao banco
      if False then //not SQLConnector1..Active then
      begin
-        memo1.lines.add( 'Banco desconectado' );
+        Memo1.lines.add( 'Banco desconectado' );
      end
      else
      begin
@@ -496,9 +522,9 @@ begin
         //SQLScript1.Script.Add( cComando );
         try
           SQLTransaction1.commit;
-          memo1.lines.add( 'Executando comando ' + cComando );
+          Memo1.lines.add( 'Executando comando ' + cComando );
         except on E: Exception do
-           memo1.lines.add( 'Erro: ' + e.message + ' executando ' + cComando );
+           Memo1.lines.add( 'Erro: ' + e.message + ' executando ' + cComando );
         end;
      end;
   end;
@@ -525,7 +551,25 @@ begin
   Edit1.SetFocus;
 end;
 
-procedure TForm1.Memo1KeyDown(Sender: TObject; var Key: Word; Shift: TShiftState
+procedure TForm1.LocateExecute(Sender: TObject);
+begin
+  GetHistory;
+end;
+
+
+procedure TForm1.getHistory;
+begin
+  if FrmHistory.ShowModal = mrOk then
+  begin
+     if trim( FrmHistory.lbHistory.caption ) <> '' then
+     begin
+       Edit1.Text:= FrmHistory.lbHistory.caption;
+       Edit1.SelStart:= Length( FrmHistory.lbHistory.caption );
+     end;
+  end;
+end;
+
+procedure TForm1.memo1KeyDown(Sender: TObject; var Key: Word; Shift: TShiftState
   );
 begin
   if Key = 27 then
@@ -534,11 +578,50 @@ begin
   end;
 end;
 
-procedure TForm1.Help;
+procedure TForm1.MenuExecute(Sender: TObject);
+begin
+  Help();
+end;
+
+procedure TForm1.NewFolderExecute(Sender: TObject);
+begin
+  newPageFolder();
+end;
+
+procedure TForm1.newPageFolder;
+var
+   MemoOld: TMemo;
+   Pagina: TTabSheet;
+   cStri: String;
+begin
+
+  if trim( Memo1.Lines.Text ) <> '' then
+  begin
+     cStrI:= IntToStr(PageControl1.PageCount+1);
+     // Aqui criamos nossa aba no PageControl1
+     Pagina:= TTabSheet.Create(PageControl1);
+     with Pagina do
+     begin
+         PageControl:=PageControl1;
+         Name:= 'Tab'+cStrI;
+         MemoOld:= TMemo.create( Pagina );
+         MemoOld.Parent:= Pagina;
+         MemoOld.Lines.Assign( Memo1.lines );
+         MemoOld.Align:= alClient;
+         Application.ProcessMessages;
+         ExecutaComando( 'clear' );
+     end;
+
+
+
+  end;
+end;
+
+procedure TForm1.Help();
 var lf: String;
 begin
   lf:= #13#10;
-     memo1.lines.add(
+     Memo1.lines.add(
         'HELP, ' +  lf  +
         'USE /caminho/database.fdb, ' + lf  +
         'MAXIMIZE, ' + lf  +

@@ -67,7 +67,7 @@ begin
      begin
         for i:= 0 to CheckListBox1.Items.count-1 do
         begin
-           if CheckListBox1.Checked[i] then
+           if CheckListBox1.Selected[i] then
               lbHistory.caption:= CheckListBox1.Items[i];
         end;
      end;
@@ -97,9 +97,19 @@ begin
 end;
 
 procedure TFrmHistory.Add( cStr: String );
+var
+   lMore: Boolean;
 begin
-    CheckListBox1.Items.Insert( 0, cStr );
-    CheckListBox1.Items.SaveToFile( ExtractFilePath( Application.ExeName ) +  'history.sys' );
+   lMore:= False;
+   if CheckListBox1.Items.count >0 then
+   begin
+      lMore:= True;
+   end;
+   if not lMore then
+      CheckListBox1.Items.Insert( 0, cStr )
+   else if ( trim( CheckListBox1.Items[0] ) <> trim( cStr ) ) then
+      CheckListBox1.Items.Insert( 0, cStr );
+   CheckListBox1.Items.SaveToFile( ExtractFilePath( Application.ExeName ) +  'history.sys' );
 end;
 
 end.
