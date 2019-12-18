@@ -1,0 +1,9 @@
+object FrmConfig: TFrmConfig
+  Left = 605
+  Height = 530
+  Top = 138
+  Width = 706
+  Caption = 'FrmConfig'
+  OnCreate = FormCreate
+  LCLVersion = '1.8.2.0'
+end

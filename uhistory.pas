@@ -23,6 +23,8 @@ type
     procedure CheckListBox1SelectionChange(Sender: TObject; User: boolean);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure Limpa;
+
   private
 
   public
@@ -94,6 +96,12 @@ end;
 procedure TFrmHistory.CheckListBox1ItemClick(Sender: TObject; Index: integer);
 begin
 
+end;
+
+procedure TFrmHistory.Limpa;
+begin
+  CheckListBox1.Items.Clear;
+  CheckListBox1.Items.SaveToFile( ExtractFilePath( Application.ExeName ) +  'history.sys' );
 end;
 
 procedure TFrmHistory.Add( cStr: String );

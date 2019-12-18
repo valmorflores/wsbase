@@ -32,7 +32,7 @@
         <PackageName Value="LCL"/>
       </Item3>
     </RequiredPackages>
-    <Units Count="3">
+    <Units Count="6">
       <Unit0>
         <Filename Value="fpcbase.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -52,6 +52,22 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit2>
+      <Unit3>
+        <Filename Value="uconfig.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FrmConfig"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit3>
+      <Unit4>
+        <Filename Value="uclassexportjson.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uclassExportJson"/>
+      </Unit4>
+      <Unit5>
+        <Filename Value="uclassexport.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="uclassExport"/>
+      </Unit5>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
