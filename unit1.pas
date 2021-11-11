@@ -100,6 +100,12 @@ end;
 procedure TForm1.Edit1KeyDown(Sender: TObject; var Key: Word; Shift: TShiftState
   );
 begin
+  if Key = 27 then
+  begin
+     if Edit1.Focused then
+        Edit1.Text:= '';
+  end;
+
   if Key = 38 then // Seta para cima
   begin
      if ( HistoricoAtual+1 < FrmHistory.CheckListBox1.items.count ) then
@@ -571,6 +577,26 @@ begin
      end;
   end;
 
+  if UpperCase( copy( cComando, 1, 4 ) ) = 'DROP' then
+  begin
+     // Conecta ao banco
+     if False then //not SQLConnector1..Active then
+     begin
+        memo( 'Banco desconectado' );
+     end
+     else
+     begin
+        SQLScript1.Script.clear;
+        SQLScript1.Script.Add( cComando + ';' + 'COMMIT;' );
+        try
+          SQLScript1.ExecuteScript;
+          memo( 'Executando comando ' + cComando );
+        except on E: Exception do
+           memo( 'Erro: ' + e.message + ' executando ' + cComando );
+        end;
+     end;
+  end;
+
   if UpperCase( copy( cComando, 1, 6 ) ) = 'CREATE' then
   begin
      // Conecta ao banco
@@ -708,14 +734,17 @@ begin
      memo(
         'HELP, ' +  lf  +
         'USE /caminho/database.fdb, ' + lf  +
-        'MAXIMIZE, ' + lf  +
-        'EXIT, ' + lf  +
-        'QUIT, ' + lf  +
-        'CLS, ' + lf  +
-        'DIR, ' + lf  +
-        'CD, ' + lf  +
-        'SELECT, ' + lf  +
-        'DELETE, ' + lf  +
+        'CREATE TABLE TABLE_NAME ( ID INTEGER, NAME VARCHAR(64) ),' + lf +
+        'ALTER TABLE TABLE_NAME ADD AGE INTEGER,' + lf +
+        'DROP TABLE TABLE_NAME,' + lf + 
+        'MAXIMIZE, ' + lf +
+        'EXIT, ' + lf +
+        'QUIT, ' + lf +
+        'CLS, ' + lf +
+        'DIR, ' + lf +
+        'CD, ' + lf +
+        'SELECT, ' + lf +
+        'DELETE, ' + lf +
         'BROWSER, ' + lf +
         'SHOW TABLES, ' + lf +
         ' '
