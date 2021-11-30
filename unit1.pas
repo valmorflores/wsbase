@@ -255,7 +255,8 @@ begin
      FuncDirFolders();
      FuncDir( pastaAtual, false );
   end;
-  if UpperCase( copy( cComando, 1, 8 ) ) = 'MAXIMIZE' then
+  if ( ( UpperCase( copy( cComando, 1, 8 ) ) = 'MAXIMIZE' ) OR
+       ( UpperCase( copy( cComando, 1, 3 ) ) = 'MAX' ) ) then
   begin
      // Maximiza tela
      memo( cComando );

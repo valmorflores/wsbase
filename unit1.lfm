@@ -9,7 +9,7 @@ object Form1: TForm1
   OnCreate = FormCreate
   OnShow = FormShow
   Position = poWorkAreaCenter
-  LCLVersion = '1.8.2.0'
+  LCLVersion = '2.0.12.0'
   object Panel1: TPanel
     Left = 0
     Height = 557
@@ -85,8 +85,8 @@ object Form1: TForm1
     end
     object Edit1: TEdit
       Left = 1
-      Height = 40
-      Top = 516
+      Height = 23
+      Top = 533
       Width = 868
       Align = alBottom
       OnChange = Edit1Change
@@ -97,7 +97,7 @@ object Form1: TForm1
     end
     object Panel3: TPanel
       Left = 1
-      Height = 135
+      Height = 152
       Top = 381
       Width = 15
       Align = alLeft
@@ -105,7 +105,7 @@ object Form1: TForm1
     end
     object PageControl1: TPageControl
       Left = 16
-      Height = 135
+      Height = 152
       Top = 381
       Width = 853
       ActivePage = TabSheet1
@@ -114,11 +114,11 @@ object Form1: TForm1
       TabOrder = 4
       object TabSheet1: TTabSheet
         Caption = 'TabSheet1'
-        ClientHeight = 97
+        ClientHeight = 124
         ClientWidth = 845
         object Memo1: TMemo
           Left = 0
-          Height = 97
+          Height = 124
           Top = 0
           Width = 845
           Align = alClient
@@ -145,14 +145,14 @@ object Form1: TForm1
     Database = SQLConnector1
     Transaction = SQLTransaction1
     Params = <>
-    left = 192
-    top = 136
+    Left = 192
+    Top = 136
   end
   object SQLTransaction1: TSQLTransaction
     Active = False
     Database = SQLConnector1
-    left = 200
-    top = 56
+    Left = 200
+    Top = 56
   end
   object SQLConnector1: TSQLConnector
     Connected = False
@@ -161,17 +161,18 @@ object Form1: TForm1
     Transaction = SQLTransaction1
     HostName = 'localhost'
     ConnectorType = 'Firebird'
-    left = 328
-    top = 64
+    Left = 328
+    Top = 64
   end
   object DataSource1: TDataSource
     DataSet = SQLQuery1
-    left = 85
-    top = 160
+    Left = 85
+    Top = 160
   end
   object SQLScript1: TSQLScript
     DataBase = SQLConnector1
     Transaction = SQLTransaction1
+    AutoCommit = False
     UseDollarString = False
     Directives.Strings = (
       'SET TERM'
@@ -191,14 +192,14 @@ object Form1: TForm1
     UseSetTerm = True
     UseCommit = True
     UseDefines = True
-    left = 296
-    top = 232
+    Left = 296
+    Top = 232
   end
   object ImageList1: TImageList
     Height = 32
     Width = 32
-    left = 448
-    top = 104
+    Left = 448
+    Top = 104
     Bitmap = {
       4C69050000002000000020000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -845,8 +846,8 @@ object Form1: TForm1
   end
   object ActionList1: TActionList
     Images = ImageList1
-    left = 560
-    top = 67
+    Left = 560
+    Top = 67
     object NewFolder: TAction
       ImageIndex = 1
       OnExecute = NewFolderExecute
