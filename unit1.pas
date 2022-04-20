@@ -61,6 +61,8 @@ type
     function Pasta(): String;
     procedure Help();
     procedure getHistory;
+    procedure getVersion;
+    function Version(): String;
     procedure newPageFolder;
     procedure memo( cStr: String );
 
@@ -343,9 +345,13 @@ begin
         SQLQuery1.Prior;
      end;
   end;
-  if UpperCase( copy( cComando, 1, 8 ) ) = 'HISTORY' then
+  if UpperCase( copy( cComando, 1, 3 ) ) = 'HIS' then
   begin
      GetHistory;
+  end;
+  if UpperCase( copy( cComando, 1, 3 ) ) = 'VER' then
+  begin
+     GetVersion;
   end;
 
   if UpperCase( copy( cComando, 1, 5 ) ) = 'CLOSE' then
@@ -367,12 +373,20 @@ begin
   begin
      // Maximiza tela
     memo( cComando );
+
+    // FORMATO 1
     cComando:= 'SELECT rdb$relation_name AS TABELA'+
                 '        FROM rdb$relations '+
                 '        WHERE rdb$system_flag = 0 '+ //  somente objetos de usuário
                 '            and rdb$relation_type = 0 '; //-- somente tabelas;
 
-     SQLQuery1.SQL.clear;
+    // FORMATO 2, FIREBIRD 1.5 compatible
+    cComando:= 'select  DISTINCT r.rdb$relation_name as TABELA ' +
+                 ' from rdb$relations r  ' +
+                 ' join rdb$indices i on (i.rdb$relation_name = r.rdb$relation_name) ' +
+                 ' WHERE SUBSTRING( r.rdb$relation_name FROM  1 FOR 4 ) != ' + QuotedStr('RDB$');
+
+    SQLQuery1.SQL.clear;
      SQLQuery1.Close;
      SQLQuery1.SQL.Add( cComando );
      try
@@ -641,9 +655,14 @@ begin
 
 end;
 
+function TForm1.Version(): String;
+begin
+  result:= 'wsBase v1.0.02';
+end;
+
 procedure TForm1.FormCreate(Sender: TObject);
 begin
-   Caption:= 'wsBase v1.0';
+   Caption:= Version() ;
    memo1.Lines.clear;
    HistoricoAtual:= -1;
 end;
@@ -677,6 +696,11 @@ begin
        Edit1.SelStart:= Length( FrmHistory.lbHistory.caption );
      end;
   end;
+end;
+
+procedure TForm1.getVersion;
+begin
+  memo(Version());
 end;
 
 procedure TForm1.memo1KeyDown(Sender: TObject; var Key: Word; Shift: TShiftState
