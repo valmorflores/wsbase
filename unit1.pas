@@ -25,6 +25,7 @@ type
     DBGrid1: TDBGrid;
     Edit1: TEdit;
     ImageList1: TImageList;
+    OpenDialog1: TOpenDialog;
     PageControl1: TPageControl;
     Panel1: TPanel;
     Panel2: TPanel;
@@ -434,13 +435,23 @@ begin
      cUser:= 'SYSDBA';
      cPass:= 'masterkey';
      cHost:= 'localhost';
-     cData:= trim( copy( cComando, pos( ' ', cComando )+1, 100 ) );
-     if pos( ' ', cData ) > 0 then
-        cData:= copy( cData, 0, pos(' ', cData )-1 );
-     if pos( ':', cData ) > 0 then
-        cHost:= copy( cData, 0, pos(':', cData )-1 );
-     if pos( ':', cData ) > 0 then
-        cData:= trim( copy( cData, pos(':', cData )+1 ) );
+     if UpperCase( trim( cComando ) ) = 'USE' then
+     begin
+       if OpenDialog1.Execute then
+       begin
+          cData:= OpenDialog1.FileName;
+       end;
+     end
+     else
+     begin
+       cData:= trim( copy( cComando, pos( ' ', cComando )+1, 100 ) );
+       if pos( ' ', cData ) > 0 then
+          cData:= copy( cData, 0, pos(' ', cData )-1 );
+       if pos( ':', cData ) > 0 then
+          cHost:= copy( cData, 0, pos(':', cData )-1 );
+       if pos( ':', cData ) > 0 then
+          cData:= trim( copy( cData, pos(':', cData )+1 ) );
+     end;
      if pos( '-u', cComando ) > 0 then
      begin
          cUser:= copy( cComando, pos('-u', cComando )+2 );
