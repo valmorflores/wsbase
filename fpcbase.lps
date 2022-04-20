@@ -7,9 +7,9 @@
       <Unit0>
         <Filename Value="fpcbase.lpr"/>
         <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
         <CursorPos X="41" Y="15"/>
-        <UsageCount Value="44"/>
-        <Loaded Value="True"/>
+        <UsageCount Value="45"/>
       </Unit0>
       <Unit1>
         <Filename Value="unit1.pas"/>
@@ -19,12 +19,10 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Unit1"/>
         <IsVisibleTab Value="True"/>
-        <EditorIndex Value="1"/>
-        <TopLine Value="675"/>
-        <CursorPos X="23" Y="697"/>
-        <UsageCount Value="44"/>
-        <Loaded Value="True"/>
-        <LoadedDesigner Value="True"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="754"/>
+        <CursorPos X="17" Y="759"/>
+        <UsageCount Value="45"/>
       </Unit1>
       <Unit2>
         <Filename Value="uhistory.pas"/>
@@ -32,12 +30,10 @@
         <ComponentName Value="FrmHistory"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="34"/>
         <CursorPos X="3" Y="48"/>
-        <UsageCount Value="34"/>
-        <Loaded Value="True"/>
-        <LoadedDesigner Value="True"/>
+        <UsageCount Value="35"/>
       </Unit2>
       <Unit3>
         <Filename Value="uconfig.pas"/>
@@ -47,7 +43,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="18"/>
         <CursorPos X="12" Y="28"/>
-        <UsageCount Value="24"/>
+        <UsageCount Value="25"/>
       </Unit3>
       <Unit4>
         <Filename Value="uclassexportjson.pas"/>
@@ -56,14 +52,14 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="54"/>
         <CursorPos X="21" Y="58"/>
-        <UsageCount Value="24"/>
+        <UsageCount Value="25"/>
       </Unit4>
       <Unit5>
         <Filename Value="uclassexport.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uclassExport"/>
         <EditorIndex Value="-1"/>
-        <UsageCount Value="24"/>
+        <UsageCount Value="25"/>
       </Unit5>
       <Unit6>
         <Filename Value="/media/valmor/76E2F7C9E2F78B9D/local/Indy10/Core/IdRegisterCore.pas"/>
@@ -110,124 +106,10 @@
         <UsageCount Value="11"/>
       </Unit11>
     </Units>
-    <JumpHistory Count="30" HistoryIndex="29">
-      <Position1>
-        <Filename Value="unit1.pas"/>
-        <Caret Line="10" Column="41"/>
-      </Position1>
-      <Position2>
-        <Filename Value="unit1.pas"/>
-        <Caret Line="63" Column="25" TopLine="43"/>
-      </Position2>
-      <Position3>
-        <Filename Value="unit1.pas"/>
-        <Caret Line="76" Column="26" TopLine="56"/>
-      </Position3>
-      <Position4>
-        <Filename Value="unit1.pas"/>
-        <Caret Line="273" Column="33" TopLine="273"/>
-      </Position4>
-      <Position5>
-        <Filename Value="unit1.pas"/>
-      </Position5>
-      <Position6>
-        <Filename Value="unit1.pas"/>
-        <Caret Line="377" Column="42" TopLine="365"/>
-      </Position6>
-      <Position7>
-        <Filename Value="fpcbase.lpr"/>
-        <Caret Line="21"/>
-      </Position7>
-      <Position8>
-        <Filename Value="unit1.pas"/>
-        <Caret Line="762" Column="25" TopLine="738"/>
-      </Position8>
-      <Position9>
-        <Filename Value="unit1.pas"/>
-      </Position9>
-      <Position10>
-        <Filename Value="unit1.pas"/>
-        <Caret Line="770" TopLine="746"/>
-      </Position10>
-      <Position11>
-        <Filename Value="unit1.pas"/>
-        <Caret Line="10" Column="41"/>
-      </Position11>
-      <Position12>
-        <Filename Value="unit1.pas"/>
-        <Caret Line="63" Column="25" TopLine="43"/>
-      </Position12>
-      <Position13>
-        <Filename Value="unit1.pas"/>
-        <Caret Line="76" Column="26" TopLine="56"/>
-      </Position13>
-      <Position14>
-        <Filename Value="unit1.pas"/>
-        <Caret Line="111" Column="40" TopLine="91"/>
-      </Position14>
-      <Position15>
-        <Filename Value="unit1.pas"/>
-        <Caret Line="119" Column="29" TopLine="99"/>
-      </Position15>
-      <Position16>
-        <Filename Value="unit1.pas"/>
-        <Caret Line="131" Column="37" TopLine="111"/>
-      </Position16>
-      <Position17>
-        <Filename Value="unit1.pas"/>
-        <Caret Line="133" Column="29" TopLine="113"/>
-      </Position17>
-      <Position18>
-        <Filename Value="unit1.pas"/>
-        <Caret Line="244" Column="13" TopLine="224"/>
-      </Position18>
-      <Position19>
-        <Filename Value="unit1.pas"/>
-        <Caret Line="346" Column="52" TopLine="326"/>
-      </Position19>
-      <Position20>
-        <Filename Value="unit1.pas"/>
-        <Caret Line="352" Column="16" TopLine="331"/>
-      </Position20>
-      <Position21>
-        <Filename Value="unit1.pas"/>
-        <Caret Line="774" TopLine="750"/>
-      </Position21>
-      <Position22>
-        <Filename Value="unit1.pas"/>
-        <Caret Line="352" Column="11" TopLine="341"/>
-      </Position22>
-      <Position23>
-        <Filename Value="unit1.pas"/>
-      </Position23>
-      <Position24>
-        <Filename Value="unit1.pas"/>
-        <Caret Line="63" Column="21" TopLine="43"/>
-      </Position24>
-      <Position25>
-        <Filename Value="unit1.pas"/>
-        <Caret Line="348" Column="12" TopLine="328"/>
-      </Position25>
-      <Position26>
-        <Filename Value="unit1.pas"/>
-      </Position26>
-      <Position27>
-        <Filename Value="unit1.pas"/>
-        <Caret Line="63" Column="5" TopLine="43"/>
-      </Position27>
-      <Position28>
-        <Filename Value="unit1.pas"/>
-        <Caret Line="697" Column="23" TopLine="682"/>
-      </Position28>
-      <Position29>
-        <Filename Value="unit1.pas"/>
-        <Caret Line="64" Column="25" TopLine="53"/>
-      </Position29>
-      <Position30>
-        <Filename Value="unit1.pas"/>
-        <Caret Line="353" Column="16" TopLine="333"/>
-      </Position30>
-    </JumpHistory>
+    <General>
+      <ActiveWindowIndexAtStart Value="-1"/>
+    </General>
+    <JumpHistory HistoryIndex="-1"/>
     <RunParams>
       <FormatVersion Value="2"/>
       <Modes Count="0" ActiveMode="default"/>
