@@ -369,7 +369,7 @@ begin
      Application.processMessages;
   end;
 
-  if UpperCase( copy( cComando, 1, 11 ) ) = 'SHOW TABLES' then
+  if UpperCase( copy( cComando, 1, 8 ) ) = 'SHOW TAB' then
   begin
      // Maximiza tela
     memo( cComando );
