@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <ProjectSession>
-    <Version Value="11"/>
+    <Version Value="10"/>
     <BuildModes Active="Default"/>
-    <Units Count="12">
+    <Units Count="13">
       <Unit0>
         <Filename Value="fpcbase.lpr"/>
         <IsPartOfProject Value="True"/>
-        <CursorPos X="37" Y="14"/>
+        <CursorPos X="27" Y="4"/>
         <UsageCount Value="45"/>
         <Loaded Value="True"/>
       </Unit0>
@@ -21,7 +21,7 @@
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <TopLine Value="7"/>
-        <CursorPos Y="19"/>
+        <CursorPos X="60" Y="12"/>
         <UsageCount Value="45"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -107,6 +107,14 @@
         <CursorPos X="67" Y="59"/>
         <UsageCount Value="11"/>
       </Unit11>
+      <Unit12>
+        <Filename Value="unit1.lfm"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="161"/>
+        <CursorPos X="43" Y="165"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="LFM"/>
+      </Unit12>
     </Units>
     <JumpHistory Count="9" HistoryIndex="8">
       <Position1>
@@ -146,9 +154,5 @@
         <Caret Line="727" Column="22" TopLine="707"/>
       </Position9>
     </JumpHistory>
-    <RunParams>
-      <FormatVersion Value="2"/>
-      <Modes Count="0" ActiveMode="default"/>
-    </RunParams>
   </ProjectSession>
 </CONFIG>

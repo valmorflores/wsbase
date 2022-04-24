@@ -387,6 +387,11 @@ begin
                  ' join rdb$indices i on (i.rdb$relation_name = r.rdb$relation_name) ' +
                  ' WHERE SUBSTRING( r.rdb$relation_name FROM  1 FOR 4 ) != ' + QuotedStr('RDB$');
 
+    // FORMATO 3, FIREBIRD 1.5 compatible INDEPENDENTE de indice
+    cComando:= 'select  DISTINCT r.rdb$relation_name as TABELA ' +
+                 ' from rdb$relations r  ' +
+                 ' WHERE SUBSTRING( r.rdb$relation_name FROM  1 FOR 4 ) != ' + QuotedStr('RDB$');
+
     SQLQuery1.SQL.clear;
      SQLQuery1.Close;
      SQLQuery1.SQL.Add( cComando );
@@ -668,7 +673,7 @@ end;
 
 function TForm1.Version(): String;
 begin
-  result:= 'wsBase v1.0.02';
+  result:= 'wsBase v1.0.03';
 end;
 
 procedure TForm1.FormCreate(Sender: TObject);
@@ -791,7 +796,6 @@ procedure TForm1.memo( cStr: String );
 begin
   Memo1.lines.add( cStr );
 end;
-
 
 
 end.
