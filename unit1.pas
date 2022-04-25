@@ -66,7 +66,7 @@ type
     function Version(): String;
     procedure newPageFolder;
     procedure memo( cStr: String );
-
+    procedure showTableStru( cTable: String );
 
   private
 
@@ -240,6 +240,7 @@ end;
 procedure TForm1.ExecutaComando( cComando: String );
 var
   cData, cUser, cHost, cPass: String;
+  cTable: String;
   Exportjson: TClassExportJson;
   i: integer;
   j: integer;
@@ -370,7 +371,28 @@ begin
      Application.processMessages;
   end;
 
-  if UpperCase( copy( cComando, 1, 8 ) ) = 'SHOW TAB' then
+  { list stru TABLENAME }
+  if UpperCase( copy( trim( cComando ), 1, 10 ) ) = 'LIST STRU ' then
+  begin
+    cTable:= trim( copy( trim( cComando ), 11 ) );
+    if pos( ';', cTable )>0 then
+    begin
+      cTable:= trim( copy( trim( cTable ), 0, pos( ';', trim( cTable ) ) -1 ) );
+    end;
+    showTableStru( cTable );
+  end;
+
+  { show table TABLENAME }
+  if UpperCase( copy( trim( cComando ), 1, 11 ) ) = 'SHOW TABLE ' then
+  begin
+    cTable:= trim( copy( trim( cComando ), 12 ) );
+    if pos( ';', cTable )>0 then
+    begin
+      cTable:= trim( copy( trim( cTable ), 0, pos( ';', trim( cTable ) ) -1 ) );
+    end;
+    showTableStru( cTable );
+  end
+  else if UpperCase( copy( cComando, 1, 8 ) ) = 'SHOW TAB' then
   begin
      // Maximiza tela
     memo( cComando );
@@ -673,7 +695,7 @@ end;
 
 function TForm1.Version(): String;
 begin
-  result:= 'wsBase v1.0.03';
+  result:= 'wsBase v1.0.04';
 end;
 
 procedure TForm1.FormCreate(Sender: TObject);
@@ -768,6 +790,45 @@ begin
   end;
 end;
 
+
+procedure TForm1.showTableStru( cTable: String );
+var
+   cComando: String;
+begin
+      cComando:= 'select rf.rdb$relation_name as table_name, ' +
+                       '       rf.rdb$field_name as column_name, ' +
+       ' case f.rdb$field_type '+
+       ' when 14 then '  + QuotedStr('CHAR') +
+       ' when 37 then ' + QuotedStr('VARCHAR') +
+       ' when 8 then ' +  QuotedStr('INTEGER') +
+       ' end as data_type, ' +
+       ' f.rdb$field_length as FIELD_SIZE, ' +
+       ' f.rdb$field_scale as FIELD_DECIMAL ' +
+       ' from rdb$fields f ' +
+       ' join rdb$relation_fields rf on rf.rdb$field_source = f.rdb$field_name ' +
+       ' where rf.rdb$relation_name = ' + QuotedStr(cTable);
+    SQLQuery1.SQL.clear;
+    SQLQuery1.Close;
+    SQLQuery1.SQL.Add( cComando );
+    try
+       SQLQuery1.Open;
+       if SQLQuery1.Active then
+       begin
+         memo( 'Executando comando ' + cComando );
+         while not SQLQuery1.eof do
+         begin
+            memo( SQLQuery1.FieldByName( 'column_name' ).AsString );
+            SQLQuery1.next;
+         end;
+       end;
+    except on E: Exception do
+        memo( 'Erro: ' + e.message + ' executando ' + cComando );
+    end;
+
+end;
+
+
+
 procedure TForm1.Help();
 var lf: String;
 begin
@@ -788,6 +849,8 @@ begin
         'DELETE, ' + lf +
         'BROWSER, ' + lf +
         'SHOW TABLES, ' + lf +
+        'SHOW TABLE <TABLENAME>, ' + lf +
+        'LIST STRU <TABLENAME>, ' + lf +
         ' '
      );
 end;
