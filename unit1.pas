@@ -491,7 +491,7 @@ begin
          cPass:= trim( cPass ) + ' ';
          cPass:= copy( cPass, 0, pos( ' ', cPass )-1 );
      end;
-     memo( 'Parametros ' + cUser + '/' + cPass + '@' + cHost + ':' + cData );
+     memo( 'Parameters ' + cUser + '/' + cPass + '@' + cHost + ':' + cData + ', waiting...' );
      // Conecta ao banco
      if SQLConnector1.ConnectorType = '' then
         SQLConnector1.ConnectorType:='Firebird';     
@@ -500,7 +500,7 @@ begin
      SQLConnector1.password:= cPass;
      SQLConnector1.databasename:= cData;
      SQLConnector1.Open;
-     memo( 'Conectado em ' + SQLConnector1.databasename );
+     memo( 'Connection ' + SQLConnector1.databasename + ' done!' );
 
   end;
   if UpperCase( copy( cComando, 1, 6 ) ) = 'SELECT' then
@@ -798,26 +798,29 @@ begin
       cComando:= 'select rf.rdb$relation_name as table_name, ' +
                        '       rf.rdb$field_name as column_name, ' +
        ' case f.rdb$field_type '+
-       ' when 14 then '  + QuotedStr('CHAR') +
+       ' when 7 then ' + QuotedStr('SMALLINT') +
+       ' when 8 then ' + QuotedStr('INTEGER') +
+       ' when 9 then ' + QuotedStr('QUAD') +
+       ' when 10 then ' + QuotedStr('FLOAT') +
+       ' when 11 then ' + QuotedStr('D_FLOAT') +
+       ' when 12 then ' + QuotedStr('DATE') +
+       ' when 13 then ' + QuotedStr('TIME') +
+       ' when 14 then ' + QuotedStr('CHAR') +
+       ' when 16 then ' + QuotedStr('INT64') +
+       ' when 27 then ' + QuotedStr('DOUBLE') +
+       ' when 35 then ' + QuotedStr('TIMESTAMP') +
        ' when 37 then ' + QuotedStr('VARCHAR') +
-       ' when 8 then ' +  QuotedStr('INTEGER') +
+       ' when 40 then ' + QuotedStr('CSTRING')+
        ' when 261 then ' + QuotedStr('BLOB') +
-       ' WHEN 12 THEN ' + QuotedStr('DATE') +
-       ' WHEN 35 THEN ' + QuotedStr('TIMESTAMP') +
-       ' WHEN 10 THEN ' + QuotedStr('FLOAT') +
-       ' WHEN 16 THEN ' + QuotedStr('INT64') +
-       ' WHEN 40 THEN ' + QuotedStr('CSTRING')+
-       ' WHEN 11 THEN ' + QuotedStr('D_FLOAT') +
-       ' WHEN 27 THEN ' + QuotedStr('DOUBLE') +
-       ' WHEN 9 THEN ' + QuotedStr('QUAD') +
-       ' WHEN 7 THEN ' + QuotedStr('SMALLINT') +
-       ' WHEN 13 THEN ' + QuotedStr('TIME') +
        ' end as data_type, ' +
        ' f.rdb$field_length as FIELD_SIZE, ' +
        ' f.rdb$field_scale as FIELD_DECIMAL ' +
        ' from rdb$fields f ' +
-       ' join rdb$relation_fields rf on rf.rdb$field_source = f.rdb$field_name ' +
-       ' where rf.rdb$relation_name = ' + QuotedStr(cTable);
+       ' join rdb$relation_fields rf on rf.rdb$field_source = f.rdb$field_name ';
+
+    if trim(cTable) <> '*' then
+       cComando:= cComando +
+        ' where rf.rdb$relation_name = ' + QuotedStr(cTable);
     SQLQuery1.SQL.clear;
     SQLQuery1.Close;
     SQLQuery1.SQL.Add( cComando );
@@ -856,6 +859,11 @@ begin
         'CLS, ' + lf +
         'DIR, ' + lf +
         'CD, ' + lf +
+        'EOF, ' + lf +
+        'BOF, ' + lf +
+        'NEXT, ' + lf +
+        'FIRST, ' + lf +
+        'LAST, ' + lf +
         'SELECT, ' + lf +
         'DELETE, ' + lf +
         'BROWSER, ' + lf +
