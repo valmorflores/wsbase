@@ -801,6 +801,17 @@ begin
        ' when 14 then '  + QuotedStr('CHAR') +
        ' when 37 then ' + QuotedStr('VARCHAR') +
        ' when 8 then ' +  QuotedStr('INTEGER') +
+       ' when 261 then ' + QuotedStr('BLOB') +
+       ' WHEN 12 THEN ' + QuotedStr('DATE') +
+       ' WHEN 35 THEN ' + QuotedStr('TIMESTAMP') +
+       ' WHEN 10 THEN ' + QuotedStr('FLOAT') +
+       ' WHEN 16 THEN ' + QuotedStr('INT64') +
+       ' WHEN 40 THEN ' + QuotedStr('CSTRING')+
+       ' WHEN 11 THEN ' + QuotedStr('D_FLOAT') +
+       ' WHEN 27 THEN ' + QuotedStr('DOUBLE') +
+       ' WHEN 9 THEN ' + QuotedStr('QUAD') +
+       ' WHEN 7 THEN ' + QuotedStr('SMALLINT') +
+       ' WHEN 13 THEN ' + QuotedStr('TIME') +
        ' end as data_type, ' +
        ' f.rdb$field_length as FIELD_SIZE, ' +
        ' f.rdb$field_scale as FIELD_DECIMAL ' +
