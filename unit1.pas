@@ -67,6 +67,7 @@ type
     procedure newPageFolder;
     procedure memo( cStr: String );
     procedure showTableStru( cTable: String );
+    procedure exportFileToCSV( cFile: String );
 
   private
 
@@ -240,6 +241,7 @@ end;
 procedure TForm1.ExecutaComando( cComando: String );
 var
   cData, cUser, cHost, cPass: String;
+  cFile: String;
   cTable: String;
   Exportjson: TClassExportJson;
   i: integer;
@@ -690,12 +692,49 @@ begin
      end;
   end;
 
+  if UpperCase( copy( cComando, 1, 13 ) ) = 'EXPORT CSV TO' then
+  begin
+     cFile:= trim(copy( cComando, 14 ));
+     if pos( ';', cFile )>0 then
+     begin
+       cFile:= trim( copy( trim( cFile ), 0, pos( ';', trim( cFile ) ) -1 ) );
+     end;
+     exportFileToCSV(cFile);
+  end;
 
+end;
+
+procedure TForm1.exportFileToCSV( cFile: String );
+var
+  cItem: String;
+  slFiles: TStringList;
+  i: integer;
+begin
+  slFiles:= TStringList.create;
+  SQLQuery1.First;
+  i:= 0;
+  cItem:= '';
+  for i:= 0 to SQLQuery1.FieldDefs.Count-1 do
+  begin
+      cItem:= cItem + SQLQuery1.FieldDefs[i].Name + ';';
+  end;
+  slFiles.Add(cItem);
+  while not SQLQuery1.eof do
+  begin
+    cItem:= '';
+    for i:= 0 to SQLQuery1.FieldDefs.Count-1 do
+    begin
+        cItem:= cItem + SQLQuery1.FieldByName( SQLQuery1.FieldDefs[i].Name ).asString + ';';
+    end;
+    slFiles.Add(cItem);
+    SQLQuery1.next;
+  end;
+  slFiles.SaveToFile(cFile);
 end;
 
 function TForm1.Version(): String;
 begin
-  result:= 'wsBase v1.0.04';
+  result:= 'wsBase v1.0.05';
 end;
 
 procedure TForm1.FormCreate(Sender: TObject);
@@ -870,6 +909,7 @@ begin
         'SHOW TABLES, ' + lf +
         'SHOW TABLE <TABLENAME>, ' + lf +
         'LIST STRU <TABLENAME>, ' + lf +
+        'EXPORT CSV TO <FILENAME>' + lf +
         ' '
      );
 end;
