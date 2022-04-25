@@ -926,7 +926,7 @@ begin
         'SHOW TABLES, ' + lf +
         'SHOW TABLE <TABLENAME>, ' + lf +
         'LIST STRU <TABLENAME>, ' + lf +
-        'EXPORT CSV TO <FILENAME>' + lf +
+        'EXPORT CSV TO <FILENAME.csv>' + lf +
         ' '
      );
 end;
