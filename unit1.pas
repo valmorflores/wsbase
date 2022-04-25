@@ -61,6 +61,8 @@ type
     procedure FuncMudaPasta( cPasta: String );
     function Pasta(): String;
     procedure Help();
+    procedure executing( cComando: String );
+    procedure done();
     procedure getHistory;
     procedure getVersion;
     function Version(): String;
@@ -423,7 +425,7 @@ begin
        SQLQuery1.Open;
        if SQLQuery1.Active then
        begin
-         memo( 'Executando comando ' + cComando );
+         executing( cComando );
          while not SQLQuery1.eof do
          begin
             memo( SQLQuery1.FieldByName( 'TABELA' ).AsString );
@@ -520,7 +522,7 @@ begin
         try
           SQLQuery1.Open;
           if SQLQuery1.Active then
-             memo( 'Executando comando ' + cComando );
+             executing( cComando );
 
         except on E: Exception do
            memo( 'Erro: ' + e.message + ' executando ' + cComando );
@@ -542,7 +544,7 @@ begin
         SQLQuery1.SQL.Add( cComando );
         try
           SQLQuery1.ExecSQL;
-          memo( 'Executando comando ' + cComando );
+          executing( cComando );
         except on E: Exception do
            memo( 'Erro: ' + e.message + ' executando ' + cComando );
         end;
@@ -563,7 +565,7 @@ begin
         SQLQuery1.SQL.Add( cComando );
         try
           SQLQuery1.ExecSQL;
-          memo( 'Executando comando ' + cComando );
+          executing( cComando );
         except on E: Exception do
            memo( 'Erro: ' + e.message + ' executando ' + cComando );
         end;
@@ -605,7 +607,7 @@ begin
         SQLScript1.Script.Add( cComando + ';' + 'COMMIT;' );
         try
           SQLScript1.ExecuteScript;
-          memo( 'Executando comando ' + cComando );
+          executing( cComando );
         except on E: Exception do
            memo( 'Erro: ' + e.message + ' executando ' + cComando );
         end;
@@ -625,7 +627,7 @@ begin
         SQLScript1.Script.Add( cComando + ';' + 'COMMIT;' );
         try
           SQLScript1.ExecuteScript;
-          memo( 'Executando comando ' + cComando );
+          executing( cComando );
         except on E: Exception do
            memo( 'Erro: ' + e.message + ' executando ' + cComando );
         end;
@@ -645,7 +647,7 @@ begin
         SQLScript1.Script.Add( cComando + ';' + 'COMMIT;' );
         try
           SQLScript1.ExecuteScript;
-          memo( 'Executando comando ' + cComando );
+          executing( cComando );
         except on E: Exception do
            memo( 'Erro: ' + e.message + ' executando ' + cComando );
         end;
@@ -665,7 +667,7 @@ begin
         SQLScript1.Script.Add( cComando + ';' + 'COMMIT;' );
         try
           SQLScript1.ExecuteScript;
-          memo( 'Executando comando ' + cComando );
+          executing( cComando );
         except on E: Exception do
            memo( 'Erro: ' + e.message + ' executando ' + cComando );
         end;
@@ -685,7 +687,7 @@ begin
         //SQLScript1.Script.Add( cComando );
         try
           SQLTransaction1.commit;
-          memo( 'Executando comando ' + cComando );
+          executing( cComando );
         except on E: Exception do
            memo( 'Erro: ' + e.message + ' executando ' + cComando );
         end;
@@ -699,10 +701,25 @@ begin
      begin
        cFile:= trim( copy( trim( cFile ), 0, pos( ';', trim( cFile ) ) -1 ) );
      end;
+     executing( cComando );
      exportFileToCSV(cFile);
+     done();
   end;
 
 end;
+
+procedure TForm1.executing( cComando: String );
+begin
+  memo( 'Executing ' + cComando );
+  Application.processMessages();
+end;
+
+procedure TForm1.done();
+begin
+  memo( 'done!' );
+  Application.processMessages();
+end;
+
 
 procedure TForm1.exportFileToCSV( cFile: String );
 var
@@ -867,7 +884,7 @@ begin
        SQLQuery1.Open;
        if SQLQuery1.Active then
        begin
-         memo( 'Executando comando ' + cComando );
+         executing( cComando );
          while not SQLQuery1.eof do
          begin
             memo( SQLQuery1.FieldByName( 'column_name' ).AsString );
