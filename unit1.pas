@@ -582,6 +582,11 @@ begin
      Close;
   end;
 
+  if UpperCase( trim( cComando ) ) = 'Q' then
+  begin
+     Close;
+  end;
+
   if UpperCase( copy( cComando, 1, 4 ) ) = 'HIST' then
   begin
      DBGrid1.Height:= DBGrid1.Height-100;
